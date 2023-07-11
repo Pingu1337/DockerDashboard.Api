@@ -24,6 +24,7 @@ jobs:
           headers: |
             Content-Type: application/json
             Connection: Keep-Alive
+            Keep-Alive: timeout=1800, max=1000
             x-api-key: ${{ secrets.API_KEY }}
           # Optional (default: no body)
           body: |
@@ -47,6 +48,7 @@ jobs:
           headers: |
             Content-Type: application/json
             Connection: Keep-Alive
+            Keep-Alive: timeout=1800, max=1000
             x-api-key: ${{ secrets.API_KEY }}
           body: |
             {
