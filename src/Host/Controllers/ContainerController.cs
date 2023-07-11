@@ -68,4 +68,14 @@ public class ContainerController : ControllerBase
     {
         return await Send(new ContainerRestartCommand(id));
     }
+    
+    /// <summary>
+    /// Prune containers
+    /// </summary>
+    /// <returns></returns>
+    [HttpDelete]
+    public async Task<IActionResult> Prune()
+    {
+        return await Send(new ContainerPruneCommand());
+    }
 }
