@@ -12,37 +12,30 @@ jobs:
       packages: write
       contents: read
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
-
-      #- name: Set up QEMU
-      #  uses: docker/setup-qemu-action@v2
-
-     # - name: Set up Docker Buildx
-     #   uses: docker/setup-buildx-action@v2
-
-      - name: Log in to registry
-        uses: docker/login-action@v2
+      - name: Build and push docker image
+        id: build_request
+        uses: tyrrrz/action-http-request@v1
         with:
-          registry: registry.null.care
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          # Required
+          url: http://api.null.care/build
+          # Optional (default: GET)
+          method: POST
+          # Optional (default: no headers)
+          headers: |
+            Content-Type: application/json
+            Connection: Keep-Alive
+            x-api-key: ${{ secrets.API_KEY }}
+          # Optional (default: no body)
+          body: |
+            {
+              "repository": "${{ github.repository }}",
+              "tag": "docker-dashboard:latest"
+            }
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            registry.null.care/${{ github.repository }}
-      
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          # platforms: linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build output
+        run: |
+          echo "Status: ${{ steps.build_request.outputs.status }}"
+          echo "Body: ${{ steps.build_request.outputs.body }}"
           
       - name: Deploy image on server
         id: run_request
@@ -52,10 +45,11 @@ jobs:
           method: POST
           headers: |
             Content-Type: application/json
+            Connection: Keep-Alive
             x-api-key: ${{ secrets.API_KEY }}
           body: |
             {
-              "image": "registry.null.care/${{ github.repository }}",
+              "image": "registry.null.care/docker-dashboard:latest",
               "name": "docker-dashboard",
               "port": "9550:5000",
               "args": ["-e", "ApiKey=${{ secrets.CONTAINER_API_KEY }}", "-v", "/var/run/docker.sock:/var/run/docker.sock"]
