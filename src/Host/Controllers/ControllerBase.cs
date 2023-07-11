@@ -1,13 +1,28 @@
+using Infrastructure.Shell.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers;
 
 public class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
 {
-    protected readonly IMediator Mediator;
+    private readonly IMediator _mediator;
 
     public ControllerBase(IMediator mediator)
     {
-        Mediator = mediator;
+        _mediator = mediator;
+    }
+
+    protected async Task<IActionResult> Send<T>(IRequest<T> request)
+    {
+        try
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+        catch (NonZeroExitCodeException e)
+        {
+            return Problem(title: e.Details.Message, detail: e.Details.Error);
+        }
     }
 }

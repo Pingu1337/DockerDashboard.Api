@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Infrastructure.Shell.Exceptions;
 
 namespace Infrastructure.Shell;
 
@@ -12,6 +13,7 @@ public class ShellCommandExecutor
             FileName = "bash", // or "cmd" for Windows
             Arguments = $"-c \"{command}\"",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -22,6 +24,11 @@ public class ShellCommandExecutor
         var output = process.StandardOutput.ReadToEnd();
 
         process.WaitForExit();
+
+        if (process.ExitCode is not 0)
+        {
+            throw new NonZeroExitCodeException(process, command);
+        }
 
         return output;
     }

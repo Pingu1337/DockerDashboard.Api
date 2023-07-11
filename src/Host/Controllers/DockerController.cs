@@ -1,3 +1,4 @@
+using Domain.Commands.Docker;
 using Domain.Queries.Docker;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,7 @@ public class DockerController : ControllerBase
     [HttpGet("containers")]
     public async Task<IActionResult> List()
     {
-        var result = await Mediator.Send(new DockerContainerListQuery());
-        return Ok(result);
+        return await Send(new DockerContainerListQuery());
     }
 
     /// <summary>
@@ -30,7 +30,33 @@ public class DockerController : ControllerBase
     [HttpGet("inspect/{id}")]
     public async Task<IActionResult> Inspect(string id)
     {
-        var result = await Mediator.Send(new DockerInspectQuery(id));
-        return Ok(result);
+        return await Send(new DockerInspectQuery(id));
+    }
+
+    /// <summary>
+    /// Start a container
+    /// </summary>
+    [HttpPut("start/{id}")]
+    public async Task<IActionResult> Start(string id)
+    {
+        return await Send(new DockerStartCommand(id));
+    }
+
+    /// <summary>
+    /// Stop a container
+    /// </summary>
+    [HttpPut("stop/{id}")]
+    public async Task<IActionResult> Stop(string id)
+    {
+        return await Send(new DockerStopCommand(id));
+    }
+
+    /// <summary>
+    /// Restart a container
+    /// </summary>
+    [HttpPut("restart/{id}")]
+    public async Task<IActionResult> Restart(string id)
+    {
+        return await Send(new DockerRestartCommand(id));
     }
 }
