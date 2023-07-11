@@ -1,7 +1,7 @@
 using Infrastructure.Shell;
 using MediatR;
 
-namespace Domain.Commands.Docker;
+namespace Domain.Commands.Docker.Container;
 
 public record ContainerStopCommand(string Id) : IRequest<string>
 {

@@ -1,5 +1,7 @@
 using Domain.Commands.Docker;
+using Domain.Commands.Docker.Container;
 using Domain.Queries.Docker;
+using Domain.Queries.Docker.Container;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

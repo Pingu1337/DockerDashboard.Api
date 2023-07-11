@@ -3,7 +3,7 @@ using Infrastructure.Shell;
 using MediatR;
 using Newtonsoft.Json;
 
-namespace Domain.Queries.Docker;
+namespace Domain.Queries.Docker.Container;
 
 public record ContainerInspectQuery(string Id) : IRequest<IEnumerable<DockerInspect>>
 {

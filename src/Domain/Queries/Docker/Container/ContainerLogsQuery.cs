@@ -1,7 +1,7 @@
 using Infrastructure.Shell;
 using MediatR;
 
-namespace Domain.Queries.Docker;
+namespace Domain.Queries.Docker.Container;
 
 public record ContainerLogsQuery(string Id) : IRequest<string[]>
 {
