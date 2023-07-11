@@ -17,12 +17,14 @@ jobs:
         uses: tyrrrz/action-http-request@v1
         with:
           # Required
-          url: http://api.null.care/build
+          url: https://api.null.care/build
           # Optional (default: GET)
           method: POST
           # Optional (default: no headers)
           headers: |
             Content-Type: application/json
+            Connection: Keep-Alive
+            Keep-Alive: timeout=1800, max=1000
             x-api-key: ${{ secrets.API_KEY }}
           # Optional (default: no body)
           body: |
@@ -41,10 +43,12 @@ jobs:
         id: run_request
         uses: tyrrrz/action-http-request@v1
         with:
-          url: http://api.null.care/run
+          url: https://api.null.care/run
           method: POST
           headers: |
             Content-Type: application/json
+            Connection: Keep-Alive
+            Keep-Alive: timeout=1800, max=1000
             x-api-key: ${{ secrets.API_KEY }}
           body: |
             {
