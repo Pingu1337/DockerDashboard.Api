@@ -13,7 +13,7 @@ public partial class ComposeLogsQueryHandler : IRequestHandler<ComposeLogsQuery,
 {
     public async Task<string[]> Handle(ComposeLogsQuery request, CancellationToken cancellationToken)
     {
-        var output = ShellCommandExecutor.ExecuteCommand(request.Command);
+        var output = ShellCommandExecutor.ExecuteCommand(request.Command).Output;
         return await Task.FromResult(TrimmedLogs(output));
     }
 

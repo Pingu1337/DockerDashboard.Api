@@ -1,7 +1,7 @@
 using Domain.Models.Attributes;
 using Newtonsoft.Json;
 
-namespace Domain.Models.Docker;
+namespace Domain.Models.Docker.Container;
 
 public record DockerContainer
 {

@@ -1,6 +1,6 @@
-namespace Domain.Models.Docker.Compose;
+namespace Domain.Models.Docker.Image;
 
-public record DockerComposeImage
+public record DockerImage
 {
     public string Id { get; init; }
     public string ContainerName { get; init; }

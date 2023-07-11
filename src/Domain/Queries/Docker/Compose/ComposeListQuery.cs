@@ -14,7 +14,7 @@ public class ComposeListQueryHandler : IRequestHandler<ComposeListQuery, IEnumer
 {
     public Task<IEnumerable<DockerCompose>> Handle(ComposeListQuery request, CancellationToken cancellationToken)
     {
-        var output = ShellCommandExecutor.ExecuteCommand(ComposeListQuery.Command);
+        var output = ShellCommandExecutor.ExecuteCommand(ComposeListQuery.Command).Output;
         return Task.FromResult(JsonConvert.DeserializeObject<IEnumerable<DockerCompose>>(output));
     }
 }

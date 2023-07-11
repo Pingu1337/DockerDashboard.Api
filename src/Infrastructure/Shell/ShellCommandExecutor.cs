@@ -1,11 +1,12 @@
 using System.Diagnostics;
 using Infrastructure.Shell.Exceptions;
+using Infrastructure.Shell.Models;
 
 namespace Infrastructure.Shell;
 
 public class ShellCommandExecutor
 {
-    public static string ExecuteCommand(string command)
+    public static CommandOutput ExecuteCommand(string command)
     {
         var process = new Process();
         var startInfo = new ProcessStartInfo
@@ -30,6 +31,6 @@ public class ShellCommandExecutor
             throw new NonZeroExitCodeException(process, command);
         }
 
-        return output;
+        return new CommandOutput(output);
     }
 }

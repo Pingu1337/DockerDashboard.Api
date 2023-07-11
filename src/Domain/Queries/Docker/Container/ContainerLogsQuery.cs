@@ -12,6 +12,6 @@ public class ContainerLogsQueryHandler : IRequestHandler<ContainerLogsQuery, str
 {
     public async Task<string[]> Handle(ContainerLogsQuery request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command).Split("\n"));
+        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command).Output.Split("\n"));
     }
 }

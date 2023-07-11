@@ -1,32 +1,20 @@
-using Domain.Models.Docker;
+using Domain.Extensions;
+using Domain.Models.Docker.Container;
 using Infrastructure.Shell;
 using MediatR;
-using Newtonsoft.Json;
 
 namespace Domain.Queries.Docker.Container;
 
-public record ContainerListQuery : IRequest<List<DockerContainer>>
+public record ContainerListQuery : IRequest<IEnumerable<DockerContainer>>
 {
     public const string Command = "docker ps -a --format='{{json .}}'";
 }
 
-public class ContainerListQueryHandler : IRequestHandler<ContainerListQuery, List<DockerContainer>>
+public class ContainerListQueryHandler : IRequestHandler<ContainerListQuery, IEnumerable<DockerContainer>>
 {
-    public Task<List<DockerContainer>> Handle(ContainerListQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<DockerContainer>> Handle(ContainerListQuery request, CancellationToken cancellationToken)
     {
         var output = ShellCommandExecutor.ExecuteCommand(ContainerListQuery.Command);
-        return Task.FromResult(ParseOutput(output));
-    }
-
-    private static List<DockerContainer> ParseOutput(string output)
-    {
-        var json = CreateJson(output);
-        return JsonConvert.DeserializeObject<List<DockerContainer>>(json);
-    }
-
-    private static string CreateJson(string input)
-    {
-        var json = input.Replace("}", "},");
-        return $"[{json.TrimEnd(',')}]";
+        return Task.FromResult(output.ParseContainers());
     }
 }

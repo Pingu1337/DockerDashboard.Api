@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace Domain.Models.Docker;
+namespace Domain.Models.Docker.Container;
 
-public record DockerInspect
+public record DockerContainerInspect
 {
     public string Id { get; init; }
     public DateTimeOffset Created { get; init; }
