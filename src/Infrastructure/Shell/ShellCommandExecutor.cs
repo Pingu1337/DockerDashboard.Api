@@ -10,7 +10,7 @@ public class ShellCommandExecutor
         var process = new Process();
         var startInfo = new ProcessStartInfo
         {
-            FileName = "bash", // or "cmd" for Windows
+            FileName = "bash",
             Arguments = $"-c \"{command}\"",
             RedirectStandardOutput = true,
             RedirectStandardError = true,

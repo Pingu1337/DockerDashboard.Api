@@ -10,8 +10,4 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Handlers\Docker\Compose\" />
-    </ItemGroup>
-
 </Project>
