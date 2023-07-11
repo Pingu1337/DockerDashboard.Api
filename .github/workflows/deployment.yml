@@ -29,6 +29,7 @@ jobs:
           body: |
             {
               "repository": "${{ github.repository }}",
+              "context": ".",
               "tag": "docker-dashboard:latest"
             }
 
