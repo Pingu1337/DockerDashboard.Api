@@ -1,9 +1,11 @@
 using Infrastructure.Shell.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers;
 
+[Authorize(AuthenticationSchemes = "ApiKey")]
 public class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
 {
     private readonly IMediator _mediator;
