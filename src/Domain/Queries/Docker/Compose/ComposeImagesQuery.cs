@@ -5,15 +5,15 @@ using Newtonsoft.Json;
 
 namespace Domain.Queries.Docker.Compose;
 
-public record DockerComposeImagesQuery(string Name) : IRequest<IEnumerable<DockerComposeImage>>
+public record ComposeImagesQuery(string Name) : IRequest<IEnumerable<DockerComposeImage>>
 {
     public string Command => $"docker-compose --project-name {Name} images --format json";
 }
 
-public class DockerComposeImagesQueryHandler
-    : IRequestHandler<DockerComposeImagesQuery, IEnumerable<DockerComposeImage>>
+public class ComposeImagesQueryHandler
+    : IRequestHandler<ComposeImagesQuery, IEnumerable<DockerComposeImage>>
 {
-    public Task<IEnumerable<DockerComposeImage>> Handle(DockerComposeImagesQuery request,
+    public Task<IEnumerable<DockerComposeImage>> Handle(ComposeImagesQuery request,
         CancellationToken cancellationToken)
     {
         var output = ShellCommandExecutor.ExecuteCommand(request.Command);

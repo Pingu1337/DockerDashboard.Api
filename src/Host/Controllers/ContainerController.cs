@@ -7,56 +7,63 @@ namespace Host.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class DockerController : ControllerBase
+public class ContainerController : ControllerBase
 {
-    public DockerController(IMediator mediator) : base(mediator)
+    public ContainerController(IMediator mediator) : base(mediator)
     {
     }
 
     /// <summary>
     /// List all containers
     /// </summary>
-    /// <returns>A list of all containers</returns>
-    [HttpGet("containers")]
+    [HttpGet]
     public async Task<IActionResult> List()
     {
-        return await Send(new DockerContainerListQuery());
+        return await Send(new ContainerListQuery());
     }
 
     /// <summary>
     /// Inspect a container
     /// </summary>
-    /// <returns>Detailed information about the container with the specified id</returns>
-    [HttpGet("inspect/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> Inspect(string id)
     {
-        return await Send(new DockerInspectQuery(id));
+        return await Send(new ContainerInspectQuery(id));
+    }
+    
+    /// <summary>
+    /// Get the logs from a container
+    /// </summary>
+    [HttpGet("{id}/logs")]
+    public async Task<IActionResult> Logs(string id)
+    {
+        return await Send(new ContainerLogsQuery(id));
     }
 
     /// <summary>
     /// Start a container
     /// </summary>
-    [HttpPut("start/{id}")]
+    [HttpPut("{id}/start")]
     public async Task<IActionResult> Start(string id)
     {
-        return await Send(new DockerStartCommand(id));
+        return await Send(new ContainerStartCommand(id));
     }
 
     /// <summary>
     /// Stop a container
     /// </summary>
-    [HttpPut("stop/{id}")]
+    [HttpPut("{id}/stop")]
     public async Task<IActionResult> Stop(string id)
     {
-        return await Send(new DockerStopCommand(id));
+        return await Send(new ContainerStopCommand(id));
     }
 
     /// <summary>
     /// Restart a container
     /// </summary>
-    [HttpPut("restart/{id}")]
+    [HttpPut("{id}/restart")]
     public async Task<IActionResult> Restart(string id)
     {
-        return await Send(new DockerRestartCommand(id));
+        return await Send(new ContainerRestartCommand(id));
     }
 }

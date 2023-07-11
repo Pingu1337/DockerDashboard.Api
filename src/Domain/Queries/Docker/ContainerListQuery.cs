@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 
 namespace Domain.Queries.Docker;
 
-public record DockerContainerListQuery : IRequest<List<DockerContainer>>
+public record ContainerListQuery : IRequest<List<DockerContainer>>
 {
     public const string Command = "docker ps -a --format='{{json .}}'";
 }
 
-public class DockerContainerListQueryHandler : IRequestHandler<DockerContainerListQuery, List<DockerContainer>>
+public class ContainerListQueryHandler : IRequestHandler<ContainerListQuery, List<DockerContainer>>
 {
-    public Task<List<DockerContainer>> Handle(DockerContainerListQuery request, CancellationToken cancellationToken)
+    public Task<List<DockerContainer>> Handle(ContainerListQuery request, CancellationToken cancellationToken)
     {
-        var output = ShellCommandExecutor.ExecuteCommand(DockerContainerListQuery.Command);
+        var output = ShellCommandExecutor.ExecuteCommand(ContainerListQuery.Command);
         return Task.FromResult(ParseOutput(output));
     }
 

@@ -7,9 +7,9 @@ namespace Host.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class DockerComposeController : ControllerBase
+public class ComposeController : ControllerBase
 {
-    public DockerComposeController(IMediator mediator) : base(mediator)
+    public ComposeController(IMediator mediator) : base(mediator)
     {
     }
 
@@ -19,16 +19,25 @@ public class DockerComposeController : ControllerBase
     [HttpGet("list")]
     public async Task<IActionResult> List()
     {
-        return await Send(new DockerComposeListQuery());
+        return await Send(new ComposeListQuery());
     }
 
     /// <summary>
     /// List images in a compose project
     /// </summary>
     [HttpGet("{name}/images")]
-    public async Task<IActionResult> GetImages(string name)
+    public async Task<IActionResult> Images(string name)
     {
-        return await Send(new DockerComposeImagesQuery(name));
+        return await Send(new ComposeImagesQuery(name));
+    }
+
+    /// <summary>
+    /// Get the logs from a compose project
+    /// </summary>
+    [HttpGet("{name}/logs")]
+    public async Task<IActionResult> Logs(string name)
+    {
+        return await Send(new ComposeLogsQuery(name));
     }
 
     /// <summary>
@@ -37,7 +46,7 @@ public class DockerComposeController : ControllerBase
     [HttpPut("{name}/stop")]
     public async Task<IActionResult> Stop(string name)
     {
-        return await Send(new DockerComposeStopCommand(name));
+        return await Send(new ComposeStopCommand(name));
     }
 
     /// <summary>
@@ -46,7 +55,7 @@ public class DockerComposeController : ControllerBase
     [HttpPut("{name}/start")]
     public async Task<IActionResult> Start(string name)
     {
-        return await Send(new DockerComposeStartCommand(name));
+        return await Send(new ComposeStartCommand(name));
     }
 
     /// <summary>
@@ -55,7 +64,7 @@ public class DockerComposeController : ControllerBase
     [HttpPut("{name}/restart")]
     public async Task<IActionResult> Restart(string name)
     {
-        return await Send(new DockerComposeRestartCommand(name));
+        return await Send(new ComposeRestartCommand(name));
     }
 
     /// <summary>
@@ -64,7 +73,7 @@ public class DockerComposeController : ControllerBase
     [HttpPut("{name}/pause")]
     public async Task<IActionResult> Pause(string name)
     {
-        return await Send(new DockerComposePauseCommand(name));
+        return await Send(new ComposePauseCommand(name));
     }
 
     /// <summary>
@@ -73,6 +82,6 @@ public class DockerComposeController : ControllerBase
     [HttpPut("{name}/unpause")]
     public async Task<IActionResult> Unpause(string name)
     {
-        return await Send(new DockerComposeUnpauseCommand(name));
+        return await Send(new ComposeUnpauseCommand(name));
     }
 }

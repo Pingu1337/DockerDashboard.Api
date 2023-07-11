@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 
 namespace Domain.Queries.Docker;
 
-public record DockerInspectQuery(string Id) : IRequest<IEnumerable<DockerInspect>>
+public record ContainerInspectQuery(string Id) : IRequest<IEnumerable<DockerInspect>>
 {
     public string Command => $"docker inspect {Id}";
 }
 
-public class DockerInspectQueryHandler : IRequestHandler<DockerInspectQuery, IEnumerable<DockerInspect>>
+public class ContainerInspectQueryHandler : IRequestHandler<ContainerInspectQuery, IEnumerable<DockerInspect>>
 {
-    public Task<IEnumerable<DockerInspect>> Handle(DockerInspectQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<DockerInspect>> Handle(ContainerInspectQuery request, CancellationToken cancellationToken)
     {
         var output = ShellCommandExecutor.ExecuteCommand(request.Command);
 
