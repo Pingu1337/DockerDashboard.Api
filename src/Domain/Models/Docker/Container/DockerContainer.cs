@@ -5,12 +5,10 @@ namespace Domain.Models.Docker.Container;
 
 public record DockerContainer
 {
-    [JsonConverter(typeof(UnescapeCommandConverter))]
+    [JsonConverter(typeof(UnescapeJsonStringConverter))]
     public string Command { get; init; }
 
-    [JsonConverter(typeof(DockerDateTimeOffsetConverter))]
-    public DateTimeOffset CreatedAt { get; init; }
-
+    public string CreatedAt { get; init; }
     public string Id { get; init; }
     public string Image { get; init; }
     public string Labels { get; init; }
