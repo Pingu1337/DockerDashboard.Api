@@ -10,8 +10,9 @@ public record ContainerStartCommand(string Id) : IRequest<string>
 
 public class ContainerStartCommandHandler : IRequestHandler<ContainerStartCommand, string>
 {
-    public async Task<string> Handle(ContainerStartCommand request, CancellationToken cancellationToken)
+    public Task<string> Handle(ContainerStartCommand request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command));
+        ShellCommandExecutor.ExecuteCommand(request.Command);
+        return Task.FromResult($"container {request.Id} started");
     }
 }

@@ -10,8 +10,9 @@ public record ComposeStopCommand(string Name) : IRequest<string>
 
 public class ComposeStopCommandHandler : IRequestHandler<ComposeStopCommand, string>
 {
-    public async Task<string> Handle(ComposeStopCommand request, CancellationToken cancellationToken)
+    public Task<string> Handle(ComposeStopCommand request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command));
+        ShellCommandExecutor.ExecuteCommand(request.Command);
+        return Task.FromResult($"{request.Name} stopped");
     }
 }

@@ -10,8 +10,9 @@ public record ComposeUnpauseCommand(string Name) : IRequest<string>
 
 public class ComposeUnpauseCommandHandler : IRequestHandler<ComposeUnpauseCommand, string>
 {
-    public async Task<string> Handle(ComposeUnpauseCommand request, CancellationToken cancellationToken)
+    public Task<string> Handle(ComposeUnpauseCommand request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command));
+        ShellCommandExecutor.ExecuteCommand(request.Command);
+        return Task.FromResult($"{request.Name} unpaused");
     }
 }

@@ -10,8 +10,9 @@ public record ComposeStartCommand(string Name) : IRequest<string>
 
 public class ComposeStartCommandHandler : IRequestHandler<ComposeStartCommand, string>
 {
-    public async Task<string> Handle(ComposeStartCommand request, CancellationToken cancellationToken)
+    public Task<string> Handle(ComposeStartCommand request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command));
+        ShellCommandExecutor.ExecuteCommand(request.Command);
+        return Task.FromResult($"{request.Name} started");
     }
 }

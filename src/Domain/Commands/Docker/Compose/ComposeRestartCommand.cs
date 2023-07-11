@@ -10,8 +10,9 @@ public record ComposeRestartCommand(string Name) : IRequest<string>
 
 public class ComposeRestartCommandHandler : IRequestHandler<ComposeRestartCommand, string>
 {
-    public async Task<string> Handle(ComposeRestartCommand request, CancellationToken cancellationToken)
+    public Task<string> Handle(ComposeRestartCommand request, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(ShellCommandExecutor.ExecuteCommand(request.Command));
+        ShellCommandExecutor.ExecuteCommand(request.Command);
+        return Task.FromResult($"{request.Name} restarted");
     }
 }
