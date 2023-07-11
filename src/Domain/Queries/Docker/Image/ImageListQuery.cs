@@ -7,7 +7,7 @@ namespace Domain.Queries.Docker.Image;
 
 public record ImageListQuery() : IRequest<IEnumerable<DockerImage>>
 {
-    public const string Command = "docker images --format json";
+    public const string Command = "docker images --format='{{json .}}'";
 }
 
 public class ImageListQueryHandler : IRequestHandler<ImageListQuery, IEnumerable<DockerImage>>
